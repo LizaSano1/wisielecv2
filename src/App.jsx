@@ -6,6 +6,8 @@ import WordDisplay from './components/WordDisplay/wordDisplay';
 import Keyboard from './components/Keyboard/KeyBoard';
 import ResetButton from './components/ResetButton/ResetButton';
 
+
+
 const App = () => {
   return (
     <div className="app">
