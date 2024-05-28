@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Utwórz kontekst gry
 const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
@@ -14,7 +13,7 @@ export const GameProvider = ({ children }) => {
     fetch('/data/artykulySpozywcze.json')
       .then(response => response.json())
       .then(data => setWords(data))
-      .catch(error => console.error('Błąd podczas pobierania słów:', error));
+      .catch(error => console.error('Error fetching words:', error));
   }, []);
 
   useEffect(() => {
@@ -47,42 +46,11 @@ export const GameProvider = ({ children }) => {
     setGameOver(false);
   };
 
-  const gameState = {
-    randomWord,
-    selectedLetters,
-    attemptsLeft,
-    gameOver,
-    handleLetterSelect,
-    chooseRandomWord,
-  };
-
   return (
-    <GameContext.Provider value={gameState}>
+    <GameContext.Provider value={{ randomWord, selectedLetters, attemptsLeft, gameOver, handleLetterSelect, chooseRandomWord }}>
       {children}
     </GameContext.Provider>
   );
 };
 
 export const useGame = () => useContext(GameContext);
-
-const Illustration = () => {
-  const { attemptsLeft } = useGame();
-  const images = {
-    1: require('../../images/hangman.jpg'),
-    2: require('../../images/s1.jpg'),
-    3: require('../../images/s2.jpg'),
-    4: require('../../images/s3.jpg'),
-    5: require('../../images/s4.jpg'),
-    6: require('../../images/s5.jpg'),
-    7: require('../../images/s6.jpg'),
-    8: require('../../images/s7.jpg'),
-    9: require('../../images/s8.jpg'),
-    10: require('../../images/s9.jpg'),
-  };
-
-  return (
-    <img src={images[8 - attemptsLeft].default} alt="Hangman" />
-  );
-};
-
-export default Illustration;

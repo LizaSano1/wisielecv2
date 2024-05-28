@@ -1,27 +1,31 @@
 import React from 'react';
-import './App.css';
-import { GameProvider } from './context/GameContext/GameContext';
+import { GameProvider } from './components/GameContext/GameContext';
 import Illustration from './components/Illustration/illustration';
 import WordDisplay from './components/WordDisplay/wordDisplay';
 import Keyboard from './components/Keyboard/KeyBoard';
 import ResetButton from './components/ResetButton/ResetButton';
+import ThemeButton from './components/ThemeButton/ThemeButton';
+import LanguageButton from './components/LanguageButton/LanguageButton';
 
-
-
-const App = () => {
+function App() {
   return (
-    <div className="app">
-      <h1>wisielec</h1>
-      <GameProvider>
-        <div className="game">
+    <GameProvider>
+      <div className="App">
+        <header className="App-header">
+          <h1>Hangman Game</h1>
+          <ThemeButton />
+          <LanguageButton />
+        </header>
+        <main>
+          {/* <Game /> */}
           <Illustration />
           <WordDisplay />
           <Keyboard />
           <ResetButton />
-        </div>
-      </GameProvider>
-    </div>
+        </main>
+      </div>
+    </GameProvider>
   );
-};
+}
 
 export default App;

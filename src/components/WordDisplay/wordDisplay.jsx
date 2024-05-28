@@ -1,24 +1,23 @@
 import React from 'react';
-import { useGame } from '../context/GameContext';
+import PropTypes from 'prop-types';
 
-const WordDisplay = () => {
-  const { randomWord, selectedLetters } = useGame();
-
-  // Logika renderowania wyświetlanego słowa z uwzględnieniem zgadniętych liter
-  const renderWord = () => {
-    return randomWord.split('').map((letter, index) => (
-      <span key={index}>
-        {selectedLetters.includes(letter) ? letter : '_'}
-      </span>
-    ));
-  };
+const WordDisplay = ({ selectedWord, guessedLetters }) => {
+  const wordLetters = selectedWord.split("");
 
   return (
     <div className="word-display">
-      <p>Aktualne słowo: {renderWord()}</p>
-      <p>Zgadnięte litery: {selectedLetters.join(', ')}</p>
+      {wordLetters.map((letter, index) => (
+        <span key={index} className="letter">
+          {guessedLetters.has(letter) ? letter : "_"}
+        </span>
+      ))}
     </div>
   );
+};
+
+WordDisplay.propTypes = {
+  selectedWord: PropTypes.string.isRequired,
+  guessedLetters: PropTypes.instanceOf(Set).isRequired,
 };
 
 export default WordDisplay;

@@ -1,20 +1,16 @@
-
-
 import React from 'react';
-import { useGame } from '../../context/GameContext/GameContext';
+import PropTypes from 'prop-types';
 
-const ResetButton = () => {
-  const { chooseRandomWord } = useGame();
-
-  const resetGame = () => {
-    chooseRandomWord();
-  };
-
+const ResetButton = ({ onClick }) => {
   return (
-    <div className="reset-button">
-      <button onClick={resetGame}>Reset Game</button>
-    </div>
+    <button className="reset-button" onClick={onClick}>
+      Restart
+    </button>
   );
+};
+
+ResetButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ResetButton;

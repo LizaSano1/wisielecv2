@@ -1,24 +1,28 @@
 import React from 'react';
-import { useGame } from '../../context/GameContext/GameContext';
+import PropTypes from 'prop-types';
 
-const Keyboard = () => {
-  const { handleLetterSelect, selectedLetters, gameOver } = useGame();
-
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const Keyboard = ({ guessedLetters, onClick }) => {
+  const keyboard = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   return (
     <div className="keyboard">
-      {alphabet.split('').map(letter => (
-        <button 
-          key={letter} 
-          onClick={() => handleLetterSelect(letter)}
-          disabled={selectedLetters.includes(letter) || gameOver}
+      {keyboard.map((letter, index) => (
+        <button
+          key={index}
+          className="letter-button"
+          onClick={() => onClick(letter)}
+          disabled={guessedLetters.has(letter)}
         >
           {letter}
         </button>
       ))}
     </div>
   );
+};
+
+Keyboard.propTypes = {
+  guessedLetters: PropTypes.instanceOf(Set).isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default Keyboard;
