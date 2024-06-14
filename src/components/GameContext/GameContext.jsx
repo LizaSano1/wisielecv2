@@ -1,13 +1,14 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const GameContext = createContext();
 
-export const GameProvider = ({children}) => {
+export const GameProvider = ({ children }) => {
     const [words, setWords] = useState([]);
     const [randomWord, setRandomWord] = useState('');
     const [selectedLetters, setSelectedLetters] = useState([]);
     const [attemptsLeft, setAttemptsLeft] = useState(7);
     const [gameOver, setGameOver] = useState(false);
+    const [theme, setTheme] = useState('dark'); // Initialize theme to 'dark'
 
     useEffect(() => {
         fetch('/data/artykulySpozywcze.json')
@@ -29,8 +30,8 @@ export const GameProvider = ({children}) => {
     }, [selectedLetters, randomWord]);
 
     const handleLetterSelect = (letter) => {
-        if(gameOver){
-            return
+        if (gameOver) {
+            return;
         }
         setSelectedLetters(prevSelectedLetters => [...prevSelectedLetters, letter]);
         if (!randomWord.includes(letter)) {
@@ -41,7 +42,6 @@ export const GameProvider = ({children}) => {
         }
     };
 
-
     const chooseRandomWord = () => {
         const randomIndex = Math.floor(Math.random() * words.length);
         setRandomWord(words[randomIndex].toUpperCase());
@@ -50,12 +50,26 @@ export const GameProvider = ({children}) => {
         setGameOver(false);
     };
 
+    const toggleTheme = () => {
+        setTheme(prevTheme => (prevTheme === 'dark' ? 'light' : 'dark'));
+    };
+
+    const contextValue = {
+        randomWord,
+        selectedLetters,
+        attemptsLeft,
+        gameOver,
+        handleLetterSelect,
+        chooseRandomWord,
+        theme,
+        toggleTheme,
+    };
+
     return (
-        <GameContext.Provider value={{ randomWord, selectedLetters, attemptsLeft, gameOver, handleLetterSelect, chooseRandomWord }}>
+        <GameContext.Provider value={contextValue}>
             {children}
         </GameContext.Provider>
     );
 };
-
 
 export const useGame = () => useContext(GameContext);
